@@ -1822,24 +1822,26 @@ if (typeof updateItemData !== 'undefined') window.updateItemData = updateItemDat
         initAuth();
 
 onAuthStateChanged(auth, (user) => {
-    currentUser = user;
+    currentUser = user; // 1. อัปเดตตัวแปร global
+
     const desk = document.getElementById('auth-container-desktop');
     const mob = document.getElementById('auth-container-mobile');
-    
+
+    // 2. จัดการปุ่ม Login/Logout ที่เมนู
     if (user && !user.isAnonymous) {
         const btn = `<button onclick="handleLogout()" class="px-3 py-1 bg-red-100 text-red-600 rounded-lg text-xs font-bold hover:bg-red-200 transition">Logout</button>`;
         if(desk) desk.innerHTML = btn; 
         if(mob) mob.innerHTML = btn;
     } else {
-        // แก้ตรงนี้: เปลี่ยน href="#login" เป็น href="/login"
         const loginBtn = `<a href="/login" class="text-xs text-slate-300 hover:text-blue-500 transition"><i class="fas fa-lock"></i></a>`;
         if(desk) desk.innerHTML = loginBtn;
         if(mob) mob.innerHTML = loginBtn;
     }
     
-    // รีโหลดหน้าปัจจุบันเพื่อให้ UI อัปเดต (เช่น ปุ่ม Edit/Delete)
-    handleLocationChange();
+    // 3. (จุดสำคัญ) สั่งให้หน้ารีโหลดเนื้อหาใหม่ เพื่อให้ปุ่ม เพิ่ม/แก้ไข โผล่ขึ้นมา
+    handleLocationChange(); 
 });
+
 
 
     </script>
