@@ -636,57 +636,61 @@
                 </div>
             `;
         }
+// ฟังก์ชันสำหรับแสดงรายการและจัดการปุ่ม "เพิ่ม"
+async function renderListSection(options) {
+    const { collection: collectionName, title, icon, subtitle, cardTemplate, adminMode } = options;
+    
+    // ดึงข้อมูลจาก Firebase
+    let items = [];
+    try {
+        const q = query(collection(db, collectionName), orderBy('date', 'desc'));
+        const snapshot = await getDocs(q);
+        items = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    } catch (err) {
+        console.error("Error fetching data:", err);
+    }
 
-        async function renderListSection({ collection, title, icon, subtitle, cardTemplate, adminMode = false }) {
-            let items = await fetchAll(collection);
-            items.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
-
-            // Controls only for ADMINS (Not anonymous)
-            const adminControls = (item) => (currentUser && !currentUser.isAnonymous) ? `
-                <div class="absolute top-3 right-3 flex space-x-1 opacity-0 group-hover:opacity-100 transition-opacity bg-white/80 p-1 rounded-lg backdrop-blur shadow-sm z-10">
-                    <button onclick="openEditModal('${collection}', '${item.id}')" class="w-8 h-8 flex items-center justify-center rounded-md bg-yellow-50 text-yellow-600 hover:bg-yellow-100 transition"><i class="fas fa-pen text-xs"></i></button>
-                    <button onclick="deleteItemData('${collection}', '${item.id}')" class="w-8 h-8 flex items-center justify-center rounded-md bg-red-50 text-red-600 hover:bg-red-100 transition"><i class="fas fa-trash-alt text-xs"></i></button>
+    // ส่วนหัวข้อ (Header) พร้อมปุ่ม "เพิ่มข้อมูล" (แสดงเฉพาะแอดมิน)
+    let html = `
+    <div class="mb-8 fade-in">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
+            <div class="flex items-center gap-4">
+                <div class="w-14 h-14 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center text-2xl shadow-sm">
+                    <i class="fas ${icon}"></i>
                 </div>
-            ` : '';
-
-            // Add button only for ADMINS
-            // FIX: Escape double quotes for HTML attribute to prevent onClick conflict
-            const safeAdminMode = JSON.stringify(adminMode).replace(/"/g, '&quot;');
+                <div>
+                    <h2 class="text-3xl font-bold text-slate-800">${title}</h2>
+                    <p class="text-slate-500 mt-1">${subtitle || ''}</p>
+                </div>
+            </div>
             
-            const addButton = (currentUser && !currentUser.isAnonymous) ? `
-                <button onclick="openAddModal('${collection}', ${safeAdminMode})" class="mb-8 px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl shadow-lg hover:shadow-blue-500/40 hover:-translate-y-1 transition flex items-center font-bold">
-                    <i class="fas fa-plus-circle mr-2 text-lg"></i> เพิ่มข้อมูลใหม่
-                </button>
-            ` : '';
+            ${(adminMode && currentUser && !currentUser.isAnonymous) ? `
+            <button onclick="openAddModal('${collectionName}')" class="px-6 py-2.5 bg-blue-600 text-white rounded-xl hover:bg-blue-700 shadow-lg shadow-blue-200 transition flex items-center gap-2 font-bold transform hover:-translate-y-1">
+                <i class="fas fa-plus"></i> เพิ่มข้อมูล
+            </button>
+            ` : ''}
+        </div>
+    </div>
+    `;
 
-            return `
-                <div class="fade-in max-w-7xl mx-auto">
-                    <div class="text-center mb-12">
-                         <div class="w-16 h-16 bg-blue-100 rounded-2xl mx-auto flex items-center justify-center mb-4 text-blue-600 text-3xl shadow-sm rotate-3">
-                            <i class="fas ${icon || 'fa-folder'}"></i>
-                        </div>
-                        <h2 class="text-3xl md:text-4xl font-bold text-slate-800 mb-2">${title}</h2>
-                        ${subtitle ? `<p class="text-slate-500">${subtitle}</p>` : ''}
-                    </div>
-                    
-                    ${addButton}
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        ${items.length > 0 ? items.map(item => `
-                            <div class="glass-card p-6 relative group h-full flex flex-col hover:border-blue-300">
-                                ${adminControls(item)}
-                                ${cardTemplate(item)}
-                            </div>
-                        `).join('') : `
-                            <div class="col-span-full py-20 text-center glass rounded-3xl">
-                                <div class="text-slate-300 text-5xl mb-4"><i class="far fa-folder-open"></i></div>
-                                <p class="text-slate-500">ไม่พบข้อมูลในขณะนี้</p>
-                            </div>
-                        `}
-                    </div>
-                </div>
-            `;
-        }
+    // ส่วนแสดงรายการ (Grid)
+    if (items.length === 0) {
+        html += `
+        <div class="flex flex-col items-center justify-center py-20 text-slate-400 bg-white/50 rounded-3xl border border-slate-100 border-dashed">
+            <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4 text-slate-300">
+                <i class="far fa-folder-open text-2xl"></i>
+            </div>
+            <p>ไม่พบข้อมูลในขณะนี้</p>
+        </div>`;
+    } else {
+        html += `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 fade-in" style="animation-delay: 0.1s">`;
+        html += items.map(item => cardTemplate(item)).join('');
+        html += `</div>`;
+    }
+    
+    return html;
+}
+
 
         async function renderActivities() {
             return renderListSection({
