@@ -1829,8 +1829,8 @@ onAuthStateChanged(auth, (user) => {
                 const btn = `<button onclick="handleLogout()" class="px-3 py-1 bg-red-100 text-red-600 rounded-lg text-xs font-bold hover:bg-red-200 transition">Logout</button>`;
                 desk.innerHTML = btn; mob.innerHTML = btn;
             } else {
-                desk.innerHTML = `<a href="#login" class="text-xs text-slate-300 hover:text-blue-500 transition"><i class="fas fa-lock"></i></a>`;
-                mob.innerHTML = '<a href="#login" class="text-xs text-slate-300 hover:text-blue-500 transition"><i class="fas fa-lock"></i></a>';
+                desk.innerHTML = `<a href="/login" class="text-xs text-slate-300 hover:text-blue-500 transition"><i class="fas fa-lock"></i></a>`;
+                mob.innerHTML = '<a href="/login" class="text-xs text-slate-300 hover:text-blue-500 transition"><i class="fas fa-lock"></i></a>';
             }
 handleLocationChange();
         });;
