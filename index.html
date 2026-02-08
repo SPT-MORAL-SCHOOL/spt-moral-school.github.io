@@ -1760,9 +1760,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // EXPOSE FUNCTIONS TO WINDOW (สำคัญมาก)
 // ต้องประกาศบรรทัดนี้ HTML ถึงจะเรียกใช้ฟังก์ชันใน onclick ได้
 // ==========================================
-window.renderHome = renderHome;
-window.renderActivities = renderActivities;
-// ... (ฟังก์ชัน render อื่นๆ ถ้าจำเป็น)
+
 
 // ฟังก์ชันสำหรับ Modal และ CRUD
 window.openModal = (id) => document.getElementById(id).classList.remove('hidden');
@@ -1823,84 +1821,19 @@ if (typeof updateItemData !== 'undefined') window.updateItemData = updateItemDat
         };
         initAuth();
 
-        onAuthStateChanged(auth, (user) => {
-    currentUser = user;
-    
-    // ฟังก์ชันช่วยอัปเดตปุ่ม (ใช้ได้ทั้ง Desktop และ Mobile)
-    const updateAuthBtn = (elementId) => {
-        const container = document.getElementById(elementId);
-        if (container) {
-            if (user && !user.isAnonymous) {
-                // กรณีล็อกอินแล้ว: แสดงปุ่ม Logout (สีแดง)
-                // สังเกต onclick="window.handleLogout()"
-                container.innerHTML = `
-                    <button onclick="window.handleLogout()" 
-                            class="px-3 py-1 bg-red-100 text-red-600 rounded-lg text-xs font-bold hover:bg-red-200 transition flex items-center gap-1">
-                        <i class="fas fa-sign-out-alt"></i> ออกจากระบบ
-                    </button>`;
-            } else {
-                // กรณีทั่วไป: แสดงไอคอน Login (รูปกุญแจ)
-                // เปลี่ยน href เป็น /web/login ตามระบบ Path Routing
-                container.innerHTML = `
-                    <a href="/web/login" 
-                       class="text-slate-400 hover:text-blue-500 transition" 
-                       title="เข้าสู่ระบบสำหรับเจ้าหน้าที่">
-                        <i class="fas fa-lock"></i>
-                    </a>`;
-            }
-        }
-    };
-
-    // อัปเดตทั้ง 2 จุด
-    updateAuthBtn('auth-container-desktop');
-    updateAuthBtn('auth-container-mobile');
-
-    // *** สำคัญ: เรียกฟังก์ชัน Render แบบใหม่ ***
-    // (ถ้ายังเป็น handleHashChange(); ให้แก้เป็นบรรทัดนี้)
-    if (typeof handleLocationChange === 'function') {
-        handleLocationChange(); 
-    }
-});
-
-// ค้นหา onAuthStateChanged แล้วแทนที่ด้วยชุดนี้
 onAuthStateChanged(auth, (user) => {
-    console.log("Auth State Changed:", user ? "Logged In" : "Guest"); // เช็คใน Console (F12)
-    currentUser = user;
-
-    // ฟังก์ชันอัปเดตปุ่ม
-    const updateAuthBtn = (elementId, isMobile) => {
-        const container = document.getElementById(elementId);
-        if (!container) {
-            console.warn(`หา ID ${elementId} ไม่เจอ`);
-            return;
-        }
-
-        if (user && !user.isAnonymous) {
-            // กรณีล็อกอินแล้ว: ปุ่ม Logout สีแดง
-            container.innerHTML = `
-                <button onclick="window.handleLogout()" class="px-3 py-1 bg-red-100 text-red-600 rounded-lg text-sm font-bold hover:bg-red-200 transition flex items-center gap-2 shadow-sm border border-red-200">
-                    <i class="fas fa-sign-out-alt"></i> ออกจากระบบ
-                </button>`;
-        } else {
-            // กรณี Guest: ปุ่ม Login สีน้ำเงิน (เปลี่ยนจากไอคอนเล็กๆ เป็นปุ่มชัดๆ)
-            container.innerHTML = `
-                <a href="/web/login" class="px-3 py-1 bg-blue-100 text-blue-600 rounded-lg text-sm font-bold hover:bg-blue-200 transition flex items-center gap-2 shadow-sm border border-blue-200">
-                    <i class="fas fa-lock"></i> เข้าสู่ระบบ
-                </a>`;
-        }
-    };
-
-    // อัปเดตทั้ง 2 จุด
-    updateAuthBtn('auth-container-desktop', false);
-    updateAuthBtn('auth-container-mobile', true);
-
-    // เรียกฟังก์ชันเปลี่ยนหน้า (เช็คก่อนเรียก เพื่อป้องกัน Error)
-    if (typeof handleLocationChange === 'function') {
-        handleLocationChange();
-    } else if (typeof handleHashChange === 'function') {
-        handleHashChange(); // เผื่อยังใช้ระบบเก่า
-    }
-});
+            currentUser = user;
+            const desk = document.getElementById('auth-container-desktop');
+            const mob = document.getElementById('auth-container-mobile');
+            if (user && !user.isAnonymous) {
+                const btn = `<button onclick="handleLogout()" class="px-3 py-1 bg-red-100 text-red-600 rounded-lg text-xs font-bold hover:bg-red-200 transition">Logout</button>`;
+                desk.innerHTML = btn; mob.innerHTML = btn;
+            } else {
+                desk.innerHTML = `<a href="#login" class="text-xs text-slate-300 hover:text-blue-500 transition"><i class="fas fa-lock"></i></a>`;
+                mob.innerHTML = '<a href="#login" class="text-xs text-slate-300 hover:text-blue-500 transition"><i class="fas fa-lock"></i></a>';
+            }
+handleLocationChange();
+        });;
 
     </script>
 </body>
