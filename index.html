@@ -637,56 +637,67 @@
             `;
         }
 
-        async function renderListSection({ collection, title, icon, subtitle, cardTemplate, adminMode = false }) {
-            let items = await fetchAll(collection);
-            items.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+async function renderListSection(options) {
+    // 1. ดึงข้อมูล
+    let items = [];
+    try {
+        const q = query(collection(db, options.collection), orderBy('date', 'desc'));
+        const querySnapshot = await getDocs(q);
+        items = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    } catch (e) { console.error(e); }
 
-            // Controls only for ADMINS (Not anonymous)
-            const adminControls = (item) => (currentUser && !currentUser.isAnonymous) ? `
-                <div class="absolute top-3 right-3 flex space-x-1 opacity-0 group-hover:opacity-100 transition-opacity bg-white/80 p-1 rounded-lg backdrop-blur shadow-sm z-10">
-                    <button onclick="openEditModal('${collection}', '${item.id}')" class="w-8 h-8 flex items-center justify-center rounded-md bg-yellow-50 text-yellow-600 hover:bg-yellow-100 transition"><i class="fas fa-pen text-xs"></i></button>
-                    <button onclick="deleteItemData('${collection}', '${item.id}')" class="w-8 h-8 flex items-center justify-center rounded-md bg-red-50 text-red-600 hover:bg-red-100 transition"><i class="fas fa-trash-alt text-xs"></i></button>
+    // 2. ส่วนหัว (Title)
+    let html = `
+        <div class="fade-in">
+            <div class="text-center mb-12">
+                <div class="w-20 h-20 bg-blue-100 text-blue-600 rounded-full mx-auto flex items-center justify-center text-3xl mb-4 shadow-lg">
+                    <i class="fas ${options.icon}"></i>
                 </div>
-            ` : '';
+                <h2 class="text-3xl font-bold text-slate-800 mb-2">${options.title}</h2>
+                <p class="text-slate-500">${options.subtitle}</p>
+            </div>
+    `;
 
-            // Add button only for ADMINS
-            // FIX: Escape double quotes for HTML attribute to prevent onClick conflict
-            const safeAdminMode = JSON.stringify(adminMode).replace(/"/g, '&quot;');
-            
-            const addButton = (currentUser && !currentUser.isAnonymous) ? `
-                <button onclick="openAddModal('${collection}', ${safeAdminMode})" class="mb-8 px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl shadow-lg hover:shadow-blue-500/40 hover:-translate-y-1 transition flex items-center font-bold">
-                    <i class="fas fa-plus-circle mr-2 text-lg"></i> เพิ่มข้อมูลใหม่
+    // 3. [จุดสำคัญ] ปุ่มเพิ่มข้อมูล (แสดงเฉพาะตอนล็อกอิน)
+    if (currentUser && !currentUser.isAnonymous) {
+        html += `
+            <div class="container mx-auto px-4 mb-8 text-right">
+                <button onclick="openAddModal('${options.collection}')" 
+                    class="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition shadow-lg flex items-center gap-2 ml-auto">
+                    <i class="fas fa-plus"></i> เพิ่มข้อมูล
                 </button>
-            ` : '';
+            </div>
+        `;
+    }
 
-            return `
-                <div class="fade-in max-w-7xl mx-auto">
-                    <div class="text-center mb-12">
-                         <div class="w-16 h-16 bg-blue-100 rounded-2xl mx-auto flex items-center justify-center mb-4 text-blue-600 text-3xl shadow-sm rotate-3">
-                            <i class="fas ${icon || 'fa-folder'}"></i>
-                        </div>
-                        <h2 class="text-3xl md:text-4xl font-bold text-slate-800 mb-2">${title}</h2>
-                        ${subtitle ? `<p class="text-slate-500">${subtitle}</p>` : ''}
+    // 4. แสดงรายการ (Grid)
+    html += `<div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-20">`;
+    
+    if (items.length === 0) {
+        html += `<div class="col-span-full text-center py-10 text-slate-400">ไม่พบข้อมูล</div>`;
+    } else {
+        items.forEach(item => {
+            // สร้างการ์ดแต่ละใบ
+            let card = options.cardTemplate(item);
+            
+            // [จุดสำคัญ] ปุ่มแก้ไข/ลบ (แทรกเข้าไปในการ์ดถ้าล็อกอิน)
+            if (currentUser && !currentUser.isAnonymous) {
+                const adminTools = `
+                    <div class="absolute top-2 right-2 flex space-x-1 z-20">
+                        <button onclick="openEditModal('${options.collection}', '${item.id}')" class="w-8 h-8 bg-white text-yellow-500 rounded-full shadow hover:bg-yellow-50 flex items-center justify-center"><i class="fas fa-pen"></i></button>
+                        <button onclick="deleteItem('${options.collection}', '${item.id}')" class="w-8 h-8 bg-white text-red-500 rounded-full shadow hover:bg-red-50 flex items-center justify-center"><i class="fas fa-trash"></i></button>
                     </div>
-                    
-                    ${addButton}
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        ${items.length > 0 ? items.map(item => `
-                            <div class="glass-card p-6 relative group h-full flex flex-col hover:border-blue-300">
-                                ${adminControls(item)}
-                                ${cardTemplate(item)}
-                            </div>
-                        `).join('') : `
-                            <div class="col-span-full py-20 text-center glass rounded-3xl">
-                                <div class="text-slate-300 text-5xl mb-4"><i class="far fa-folder-open"></i></div>
-                                <p class="text-slate-500">ไม่พบข้อมูลในขณะนี้</p>
-                            </div>
-                        `}
-                    </div>
-                </div>
-            `;
-        }
+                `;
+                // แทรกปุ่มลงไปก่อนปิด div แรก หรือตำแหน่งที่เหมาะสม
+                card = `<div class="relative group h-full">${adminTools}${card}</div>`;
+            }
+            html += card;
+        });
+    }
+
+    html += `</div></div>`;
+    return html;
+}
 
         async function renderActivities() {
             return renderListSection({
