@@ -373,7 +373,7 @@
                             </li>
                         </ul>
                         <div class="mt-8 pt-6 border-t border-slate-200/50">
-                            <a href="#login" class="inline-flex items-center px-4 py-2 bg-slate-100 rounded-lg text-xs font-bold text-slate-500 hover:bg-slate-200 hover:text-slate-700 transition">
+                            <a href="/login" class="inline-flex items-center px-4 py-2 bg-slate-100 rounded-lg text-xs font-bold text-slate-500 hover:bg-slate-200 hover:text-slate-700 transition">
                                 <i class="fas fa-user-shield mr-2"></i> เข้าสู่ระบบผู้ดูแล
                             </a>
                         </div>
@@ -1743,13 +1743,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const email = document.getElementById('login-email').value;
             const pass = document.getElementById('login-password').value;
             try {
-                await signInWithEmailAndPassword(auth, email, pass);
-                showToast("เข้าสู่ระบบสำเร็จ");
-                window.location.hash = "#home";
-            } catch (err) {
-                showToast("ข้อมูลไม่ถูกต้อง", true);
-            }
-        };
+        await signInWithEmailAndPassword(auth, email, pass);
+        showToast("เข้าสู่ระบบสำเร็จ");
+        
+        // แก้จาก window.location.hash = "#home"; เป็น:
+        window.navigateTo('/home'); 
+        // หรือถ้าไม่มี function นี้ใน scope ให้ใช้ window.location.href = '/home';
+        
+    } catch (err) {
+        showToast("ข้อมูลไม่ถูกต้อง", true);
+    }
+};
+
 
         window.handleLogout = async () => {
             await signOut(auth);
