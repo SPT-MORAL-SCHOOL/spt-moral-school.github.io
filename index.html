@@ -1756,6 +1756,25 @@ document.addEventListener('DOMContentLoaded', () => {
             showToast("ออกจากระบบแล้ว");
             window.location.reload(); 
         };
+        // ==========================================
+// EXPOSE FUNCTIONS TO WINDOW (สำคัญมาก)
+// ต้องประกาศบรรทัดนี้ HTML ถึงจะเรียกใช้ฟังก์ชันใน onclick ได้
+// ==========================================
+window.renderHome = renderHome;
+window.renderActivities = renderActivities;
+// ... (ฟังก์ชัน render อื่นๆ ถ้าจำเป็น)
+
+// ฟังก์ชันสำหรับ Modal และ CRUD
+window.openModal = (id) => document.getElementById(id).classList.remove('hidden');
+window.closeModal = (id) => document.getElementById(id).classList.add('hidden');
+
+// ต้องแน่ใจว่าคุณมีฟังก์ชันเหล่านี้ประกาศอยู่จริงในโค้ดด้านบนแล้ว
+if (typeof openEditModal !== 'undefined') window.openEditModal = openEditModal;
+if (typeof deleteItemData !== 'undefined') window.deleteItemData = deleteItemData;
+if (typeof saveNewItem !== 'undefined') window.saveNewItem = saveNewItem;
+if (typeof updateItemData !== 'undefined') window.updateItemData = updateItemData;
+// window.handleLogin มีอยู่แล้ว ไม่ต้องเติม
+
 
         function showToast(msg, isError = false) {
             const toast = document.getElementById('toast');
