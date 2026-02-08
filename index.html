@@ -1338,28 +1338,52 @@ if (mobileMenuBtn && mobileMenu) {
         // ==========================================
 // ส่วนจัดการ Mobile Dropdown (Mobile-group)
 // ==========================================
-const groupBtn = document.getElementById('mobile-group');
-const groupContent = document.getElementById('mobile-group');
+// ==========================================
+// ส่วนจัดการ Mobile Dropdown (สำหรับโครงสร้าง HTML ล่าสุด)
+// ==========================================
 
-if (groupBtn && groupContent) {
-    groupBtn.addEventListener('click', (e) => {
-        e.preventDefault(); // ป้องกันการเปลี่ยนหน้า (ถ้าเป็น tag a)
-        e.stopPropagation(); // ป้องกัน event ชนกัน
+// 1. เลือกปุ่มทั้งหมดที่มีคลาส mobile-dropdown-toggle
+const mobileToggles = document.querySelectorAll('.mobile-dropdown-toggle');
+
+mobileToggles.forEach(toggle => {
+    toggle.addEventListener('click', (e) => {
+        e.preventDefault(); // ป้องกันการทำงาน default
+
+        // 2. หาตัวเนื้อหา (Dropdown Content) ที่อยู่ถัดจากปุ่มนี้
+        const content = toggle.nextElementSibling;
         
-        // 1. สลับการแสดงผล (Show/Hide)
-        groupContent.classList.toggle('hidden');
-        
-        // 2. หมุนลูกศร (ถ้ามี icon svg ข้างใน)
-        const icon = groupBtn.querySelector('svg');
-        if (icon) {
-            if (groupContent.classList.contains('hidden')) {
-                icon.style.transform = 'rotate(0deg)';
-            } else {
-                icon.style.transform = 'rotate(180deg)';
+        // 3. หาไอคอนลูกศร (chevron) ที่อยู่ในปุ่มนี้
+        const icon = toggle.querySelector('.fa-chevron-down');
+
+        if (content) {
+            // สลับคลาส hidden เพื่อแสดง/ซ่อน
+            content.classList.toggle('hidden');
+
+            // หมุนลูกศร
+            if (icon) {
+                if (content.classList.contains('hidden')) {
+                    icon.style.transform = 'rotate(0deg)'; // ปิดอยู่ ลูกศรชี้ลง
+                } else {
+                    icon.style.transform = 'rotate(180deg)'; // เปิดอยู่ ลูกศรชี้ขึ้น
+                }
             }
         }
     });
-}
+});
+
+// ==========================================
+// ส่วนจัดการเมื่อคลิกลิงก์ในมือถือ (ให้ปิดเมนูใหญ่ด้วย)
+// ==========================================
+document.querySelectorAll('.mobile-link').forEach(link => {
+    link.addEventListener('click', () => {
+        // เมื่อกดลิงก์ย่อย ให้ปิดเมนูใหญ่ (mobile-menu) ทันที
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (mobileMenu) {
+            mobileMenu.classList.add('hidden');
+        }
+    });
+});
+
 
 
         const thaiPageNames = {
