@@ -1315,43 +1315,102 @@
             'terms': 'ข้อกำหนดการใช้งาน'
         };
 
-        async function handleHashChange() {
-            const hash = window.location.hash.replace('#', '') || 'home';
-            
-            // 1. Highlight Desktop Menu
-            document.querySelectorAll('.nav-link').forEach(el => {
-                el.classList.remove('nav-active');
-                if (el.getAttribute('href') === `#${hash}`) {
-                    el.classList.add('nav-active');
-                }
-            });
-            
-            // Highlight Parent Dropdown for Desktop
-            document.querySelectorAll('.dropdown-content a').forEach(el => {
-                 el.classList.remove('text-blue-600', 'bg-blue-50'); 
-                 if (el.getAttribute('href') === `#${hash}`) {
-                     el.classList.add('text-blue-600', 'bg-blue-50');
-                     const parentBtn = el.closest('.group').querySelector('button');
-                     if(parentBtn) parentBtn.classList.add('nav-active');
-                 }
-            });
+        // --- New Router System (Clean URL) ---
 
-            // 2. Highlight Mobile Menu
-            document.querySelectorAll('.mobile-link').forEach(el => {
-                 el.classList.remove('bg-blue-50', 'text-blue-600', 'font-bold');
-                 if(el.getAttribute('href') === `#${hash}`) {
-                     el.classList.add('bg-blue-50', 'text-blue-600', 'font-bold');
-                     const parentGroup = el.closest('.mobile-group');
-                     if(parentGroup) {
-                         const content = parentGroup.querySelector('div.hidden, div.block');
-                         const toggle = parentGroup.querySelector('.mobile-dropdown-toggle');
-                         if(content && content.classList.contains('hidden')) {
-                             content.classList.remove('hidden');
-                             if(toggle) toggle.querySelector('i').classList.add('rotate-180');
-                         }
-                     }
-                 }
-            });
+// 1. ตั้งค่า Base Path (ถ้าใช้ Custom Domain ใส่ค่าว่าง '' ได้เลย)
+// กรณีใช้ GitHub Pages เช่น spt-moral-school.github.io/web ให้ใส่ '/web'
+const BASE_PATH = '/web'; 
+
+async function router() {
+    // ดึง Path ปัจจุบันและตัด Base Path ออก
+    let path = window.location.pathname;
+    if (BASE_PATH && path.startsWith(BASE_PATH)) {
+        path = path.substring(BASE_PATH.length);
+    }
+    // ลบเครื่องหมาย / ด้านหน้าและหลัง
+    path = path.replace(/^\/+|\/+$/g, '');
+    
+    // ถ้าไม่มี path ให้เป็น home
+    if (!path) path = 'home';
+
+    // เลือกฟังก์ชัน Render จากตัวแปร routes ที่มีอยู่แล้ว
+    const renderFn = routes[path] || routes['home'];
+
+    // --- ส่วน Highlight เมนู (ปรับปรุงจากของเดิม) ---
+    document.querySelectorAll('.nav-link').forEach(el => {
+        el.classList.remove('nav-active');
+        // เช็คว่า href ของลิงก์ตรงกับหน้าปัจจุบันไหม
+        const linkHref = el.getAttribute('href').replace(BASE_PATH, '').replace(/^\//, '');
+        if (linkHref === path) {
+            el.classList.add('nav-active');
+        }
+    });
+    
+    // Highlight Mobile Menu
+    document.querySelectorAll('.mobile-link').forEach(el => {
+         // (ใส่ Logic การเปลี่ยนสีตาม Theme เดิมของคุณ)
+         const linkHref = el.getAttribute('href').replace(BASE_PATH, '').replace(/^\//, '');
+         if (linkHref === path) el.classList.add('text-blue-600', 'bg-blue-50');
+         else el.classList.remove('text-blue-600', 'bg-blue-50');
+    });
+
+    // --- Render เนื้อหา ---
+    const app = document.getElementById('app');
+    
+    // ใส่ Loading ระหว่างรอ (Optional)
+    app.innerHTML = '<div class="flex justify-center pt-20"><div class="animate-spin rounded-full h-12 w-12 border-4 border-blue-200 border-t-blue-600"></div></div>';
+    
+    try {
+        app.innerHTML = await renderFn();
+        window.scrollTo(0, 0); // เลื่อนขึ้นบนสุดเมื่อเปลี่ยนหน้า
+    } catch (error) {
+        console.error("Render Error:", error);
+        app.innerHTML = `<div class="text-center pt-20 text-red-500">เกิดข้อผิดพลาด: ${error.message}</div>`;
+    }
+}
+
+// ฟังก์ชันสำหรับเปลี่ยนหน้า (ใช้แทนการกดลิงก์ปกติ)
+window.navigateTo = (url) => {
+    // เติม Base Path ถ้ายังไม่มี
+    const targetUrl = url.startsWith('/') ? (BASE_PATH + url) : (BASE_PATH + '/' + url);
+    window.history.pushState(null, null, targetUrl);
+    router();
+};
+
+// --- Event Listeners ---
+
+// 1. ดักจับปุ่ม Back/Forward ของ Browser
+window.addEventListener('popstate', router);
+
+// 2. เริ่มทำงานเมื่อโหลดหน้าเว็บ
+document.addEventListener('DOMContentLoaded', () => {
+    // Intercept การคลิก <a> ทั้งหมดเพื่อไม่ให้รีโหลดหน้า
+    document.body.addEventListener('click', e => {
+        // หา tag a ที่ใกล้ที่สุด
+        const link = e.target.closest('a');
+        
+        // ถ้าเป็นลิงก์ภายใน (ไม่มี http, ไม่มี target=_blank)
+        if (link && link.getAttribute('href') && 
+            !link.getAttribute('href').startsWith('http') && 
+            !link.getAttribute('target')) {
+            
+            e.preventDefault(); // ห้ามเปลี่ยนหน้าแบบปกติ
+            const href = link.getAttribute('href');
+            navigateTo(href); // ใช้ Router ของเราแทน
+        }
+    });
+    
+    router(); // เรียก Router ครั้งแรก
+});
+
+// 3. แก้ไข onAuthStateChanged ให้เรียก router แทน handleHashChange
+// (แก้ในโค้ดเดิมของคุณ)
+/* onAuthStateChanged(auth, (user) => {
+        currentUser = user;
+        // ... (โค้ดจัดการปุ่ม Login เดิม) ...
+        router(); // <-- เปลี่ยนจาก handleHashChange() เป็น router()
+    });
+*/
 
             // Render
             const appDiv = document.getElementById('app');
@@ -1709,7 +1768,7 @@
                 desk.innerHTML = `<a href="#login" class="text-xs text-slate-300 hover:text-blue-500 transition"><i class="fas fa-lock"></i></a>`;
                 mob.innerHTML = '<a href="#login" class="text-xs text-slate-300 hover:text-blue-500 transition"><i class="fas fa-lock"></i></a>';
             }
-            handleHashChange();
+            router();
         });
 
     </script>
