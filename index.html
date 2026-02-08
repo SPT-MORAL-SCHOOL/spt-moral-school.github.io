@@ -1862,6 +1862,45 @@ if (typeof updateItemData !== 'undefined') window.updateItemData = updateItemDat
     }
 });
 
+// ค้นหา onAuthStateChanged แล้วแทนที่ด้วยชุดนี้
+onAuthStateChanged(auth, (user) => {
+    console.log("Auth State Changed:", user ? "Logged In" : "Guest"); // เช็คใน Console (F12)
+    currentUser = user;
+
+    // ฟังก์ชันอัปเดตปุ่ม
+    const updateAuthBtn = (elementId, isMobile) => {
+        const container = document.getElementById(elementId);
+        if (!container) {
+            console.warn(`หา ID ${elementId} ไม่เจอ`);
+            return;
+        }
+
+        if (user && !user.isAnonymous) {
+            // กรณีล็อกอินแล้ว: ปุ่ม Logout สีแดง
+            container.innerHTML = `
+                <button onclick="window.handleLogout()" class="px-3 py-1 bg-red-100 text-red-600 rounded-lg text-sm font-bold hover:bg-red-200 transition flex items-center gap-2 shadow-sm border border-red-200">
+                    <i class="fas fa-sign-out-alt"></i> ออกจากระบบ
+                </button>`;
+        } else {
+            // กรณี Guest: ปุ่ม Login สีน้ำเงิน (เปลี่ยนจากไอคอนเล็กๆ เป็นปุ่มชัดๆ)
+            container.innerHTML = `
+                <a href="/web/login" class="px-3 py-1 bg-blue-100 text-blue-600 rounded-lg text-sm font-bold hover:bg-blue-200 transition flex items-center gap-2 shadow-sm border border-blue-200">
+                    <i class="fas fa-lock"></i> เข้าสู่ระบบ
+                </a>`;
+        }
+    };
+
+    // อัปเดตทั้ง 2 จุด
+    updateAuthBtn('auth-container-desktop', false);
+    updateAuthBtn('auth-container-mobile', true);
+
+    // เรียกฟังก์ชันเปลี่ยนหน้า (เช็คก่อนเรียก เพื่อป้องกัน Error)
+    if (typeof handleLocationChange === 'function') {
+        handleLocationChange();
+    } else if (typeof handleHashChange === 'function') {
+        handleHashChange(); // เผื่อยังใช้ระบบเก่า
+    }
+});
 
     </script>
 </body>
