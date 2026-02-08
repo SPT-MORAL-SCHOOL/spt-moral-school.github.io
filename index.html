@@ -1824,18 +1824,44 @@ if (typeof updateItemData !== 'undefined') window.updateItemData = updateItemDat
         initAuth();
 
         onAuthStateChanged(auth, (user) => {
-            currentUser = user;
-            const desk = document.getElementById('auth-container-desktop');
-            const mob = document.getElementById('auth-container-mobile');
+    currentUser = user;
+    
+    // ฟังก์ชันช่วยอัปเดตปุ่ม (ใช้ได้ทั้ง Desktop และ Mobile)
+    const updateAuthBtn = (elementId) => {
+        const container = document.getElementById(elementId);
+        if (container) {
             if (user && !user.isAnonymous) {
-                const btn = `<button onclick="handleLogout()" class="px-3 py-1 bg-red-100 text-red-600 rounded-lg text-xs font-bold hover:bg-red-200 transition">Logout</button>`;
-                desk.innerHTML = btn; mob.innerHTML = btn;
+                // กรณีล็อกอินแล้ว: แสดงปุ่ม Logout (สีแดง)
+                // สังเกต onclick="window.handleLogout()"
+                container.innerHTML = `
+                    <button onclick="window.handleLogout()" 
+                            class="px-3 py-1 bg-red-100 text-red-600 rounded-lg text-xs font-bold hover:bg-red-200 transition flex items-center gap-1">
+                        <i class="fas fa-sign-out-alt"></i> ออกจากระบบ
+                    </button>`;
             } else {
-                desk.innerHTML = `<a href="#login" class="text-xs text-slate-300 hover:text-blue-500 transition"><i class="fas fa-lock"></i></a>`;
-                mob.innerHTML = '<a href="#login" class="text-xs text-slate-300 hover:text-blue-500 transition"><i class="fas fa-lock"></i></a>';
+                // กรณีทั่วไป: แสดงไอคอน Login (รูปกุญแจ)
+                // เปลี่ยน href เป็น /web/login ตามระบบ Path Routing
+                container.innerHTML = `
+                    <a href="/web/login" 
+                       class="text-slate-400 hover:text-blue-500 transition" 
+                       title="เข้าสู่ระบบสำหรับเจ้าหน้าที่">
+                        <i class="fas fa-lock"></i>
+                    </a>`;
             }
-    handleLocationChange(); 
-        });
+        }
+    };
+
+    // อัปเดตทั้ง 2 จุด
+    updateAuthBtn('auth-container-desktop');
+    updateAuthBtn('auth-container-mobile');
+
+    // *** สำคัญ: เรียกฟังก์ชัน Render แบบใหม่ ***
+    // (ถ้ายังเป็น handleHashChange(); ให้แก้เป็นบรรทัดนี้)
+    if (typeof handleLocationChange === 'function') {
+        handleLocationChange(); 
+    }
+});
+
 
     </script>
 </body>
