@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>โรงเรียนคุณธรรม สพฐ. โรงเรียนสตรีพัทลุง</title>
+
+    <meta property="og:title" content="โรงเรียนคุณธรรม สพฐ. โรงเรียนสตรีพัทลุง | SPT Moral School" />
+    <meta property="og:description" content="เว็บไซต์ของโรงเรียนคุณธรรม สพฐ. โรงเรียนสตรีพัทลุง" />
+    <meta property="og:image" content="https://img5.pic.in.th/file/secure-sv1/-.-3f908b83b2e666ca.png" />
+    <meta property="og:url" content="https://spt-moral-school.vercel.app" />
+    <meta property="og:type" content="website" />
+
+    <link rel="icon" type="image/png" href="favicon.PNG"> 
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico"> 
+    <link rel="apple-touch-icon" href="apple-touch-icon.PNG">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.PNG">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body { font-family: 'Sarabun', sans-serif; }
+        .nav-link { position: relative; color: #475569; transition: all 0.3s; }
+        .nav-link:hover { color: #2563eb; }
+        .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; left: 0; background-color: #2563eb; transition: width 0.3s; }
+        .nav-link:hover::after { width: 100%; }
+        .nav-active { color: #2563eb; font-weight: 600; }
+        .nav-active::after { width: 100%; }
+        .glass-nav { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .fade-in { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Dropdown Styles */
+        .dropdown { position: relative; display: inline-block; }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 220px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+            z-index: 50;
+            border-radius: 8px;
+            padding: 8px 0;
+            top: 100%;
+            left: 0;
+            border: 1px solid #e2e8f0;
+        }
+        .dropdown:hover .dropdown-content { display: block; animation: slideDown 0.2s ease-out; }
+        .dropdown-content a {
+            color: #475569;
+            padding: 10px 16px;
+            text-decoration: none;
+            display: block;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+        }
+        .dropdown-content a:hover { background-color: #f1f5f9; color: #2563eb; padding-left: 20px; }
+        
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Mobile Dropdown */
+        .mobile-dropdown-content { display: none; background-color: #f8fafc; margin: 0 -1rem; padding: 0.5rem 2rem; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; }
+        .mobile-dropdown.active .mobile-dropdown-content { display: block; }
+        .mobile-dropdown-icon { transition: transform 0.3s; }
+        .mobile-dropdown.active .mobile-dropdown-icon { transform: rotate(180deg); }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
+
+    <nav class="fixed w-full z-50 glass-nav transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="/home" class="flex items-center space-x-3 group nav-item">
+                    <img src="https://img5.pic.in.th/file/secure-sv1/-.-3f908b83b2e666ca.png" alt="Logo" class="h-12 w-auto group-hover:scale-105 transition duration-300 drop-shadow-sm">
+                    <div class="flex flex-col">
+                        <span class="font-bold text-xl text-blue-900 tracking-tight leading-none group-hover:text-blue-700 transition">SPT Moral</span>
+                        <span class="text-xs text-slate-500 font-medium tracking-wider">โรงเรียนสตรีพัทลุง</span>
+                    </div>
+                </a>
+
+                <div class="hidden lg:flex items-center space-x-8">
+                    <a href="/home" class="nav-link text-sm font-medium nav-item">หน้าแรก</a>
+                    
+                    <div class="dropdown">
+                        <button class="nav-link text-sm font-medium flex items-center gap-1 focus:outline-none py-6">
+                            ข้อมูลพื้นฐาน <i class="fas fa-chevron-down text-xs opacity-70"></i>
+                        </button>
+                        <div class="dropdown-content">
+                            <a href="/history" class="nav-item"><i class="fas fa-history w-6 text-blue-500"></i>ประวัติโรงเรียน</a>
+                            <a href="/vision" class="nav-item"><i class="fas fa-bullseye w-6 text-blue-500"></i>วิสัยทัศน์/พันธกิจ</a>
+                            <a href="/symbol" class="nav-item"><i class="fas fa-star w-6 text-blue-500"></i>เอกลักษณ์/อัตลักษณ์</a>
+                            <a href="/motto" class="nav-item"><i class="fas fa-quote-left w-6 text-blue-500"></i>คติพจน์/คำขวัญ</a>
+                            <a href="/song" class="nav-item"><i class="fas fa-music w-6 text-blue-500"></i>เพลงประจำโรงเรียน</a>
+                            <a href="/personnel" class="nav-item"><i class="fas fa-users w-6 text-blue-500"></i>บุคลากร</a>
+                            <a href="/structure" class="nav-item"><i class="fas fa-sitemap w-6 text-blue-500"></i>โครงสร้างบริหาร</a>
+                        </div>
+                    </div>
+
+                    <div class="dropdown">
+                        <button class="nav-link text-sm font-medium flex items-center gap-1 focus:outline-none py-6">
+                            โรงเรียนคุณธรรม <i class="fas fa-chevron-down text-xs opacity-70"></i>
+                        </button>
+                        <div class="dropdown-content">
+                            <a href="/moral_target" class="nav-item"><i class="fas fa-bullseye w-6 text-blue-500"></i>เป้าหมายคุณธรรม</a>
+                            <a href="/virtue" class="nav-item"><i class="fas fa-heart w-6 text-blue-500"></i>คุณธรรมอัตลักษณ์</a>
+                            <a href="/activities" class="nav-item"><i class="fas fa-camera w-6 text-blue-500"></i>ภาพกิจกรรม</a>
+                        </div>
+                    </div>
+
+                    <a href="/contact" class="nav-link text-sm font-medium nav-item">ติดต่อเรา</a>
+                    
+                    <div id="auth-container-desktop" class="pl-4 border-l border-slate-200"></div>
+                </div>
+
+                <div class="lg:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-slate-600 hover:text-blue-600 focus:outline-none p-2">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-slate-100 absolute w-full shadow-lg h-screen overflow-y-auto pb-24">
+            <div class="px-4 pt-2 pb-6 space-y-1">
+                <a href="/home" class="mobile-link nav-item block px-3 py-3 text-base font-medium rounded-lg text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition">หน้าแรก</a>
+                
+                <div class="mobile-dropdown">
+                    <button class="w-full flex justify-between items-center px-3 py-3 text-base font-medium text-slate-600 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition" onclick="toggleMobileDropdown(this)">
+                        <span>ข้อมูลพื้นฐาน</span>
+                        <i class="fas fa-chevron-down text-xs mobile-dropdown-icon"></i>
+                    </button>
+                    <div class="mobile-dropdown-content">
+                        <a href="/history" class="mobile-link nav-item block px-3 py-2 text-sm text-slate-500 hover:text-blue-600">ประวัติโรงเรียน</a>
+                        <a href="/vision" class="mobile-link nav-item block px-3 py-2 text-sm text-slate-500 hover:text-blue-600">วิสัยทัศน์/พันธกิจ</a>
+                        <a href="/symbol" class="mobile-link nav-item block px-3 py-2 text-sm text-slate-500 hover:text-blue-600">เอกลักษณ์/อัตลักษณ์</a>
+                        <a href="/motto" class="mobile-link nav-item block px-3 py-2 text-sm text-slate-500 hover:text-blue-600">คติพจน์/คำขวัญ</a>
+                        <a href="/song" class="mobile-link nav-item block px-3 py-2 text-sm text-slate-500 hover:text-blue-600">เพลงประจำโรงเรียน</a>
+                        <a href="/personnel" class="mobile-link nav-item block px-3 py-2 text-sm text-slate-500 hover:text-blue-600">บุคลากร</a>
+                        <a href="/structure" class="mobile-link nav-item block px-3 py-2 text-sm text-slate-500 hover:text-blue-600">โครงสร้างบริหาร</a>
+                    </div>
+                </div>
+
+                <div class="mobile-dropdown">
+                    <button class="w-full flex justify-between items-center px-3 py-3 text-base font-medium text-slate-600 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition" onclick="toggleMobileDropdown(this)">
+                        <span>โรงเรียนคุณธรรม</span>
+                        <i class="fas fa-chevron-down text-xs mobile-dropdown-icon"></i>
+                    </button>
+                    <div class="mobile-dropdown-content">
+                        <a href="/moral_target" class="mobile-link nav-item block px-3 py-2 text-sm text-slate-500 hover:text-blue-600">เป้าหมายคุณธรรม</a>
+                        <a href="/virtue" class="mobile-link nav-item block px-3 py-2 text-sm text-slate-500 hover:text-blue-600">คุณธรรมอัตลักษณ์</a>
+                        <a href="/activities" class="mobile-link nav-item block px-3 py-2 text-sm text-slate-500 hover:text-blue-600">ภาพกิจกรรม</a>
+                    </div>
+                </div>
+
+                <a href="/contact" class="mobile-link nav-item block px-3 py-3 text-base font-medium rounded-lg text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition">ติดต่อเรา</a>
+                
+                <div id="auth-container-mobile" class="px-3 pt-4 border-t border-slate-100 mt-2"></div>
+            </div>
+        </div>
+    </nav>
+
+    <main id="app" class="flex-grow pt-20 fade-in min-h-[60vh]"></main>
+
+    <footer class="bg-slate-900 text-slate-300 py-10 mt-auto border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-white font-bold text-lg mb-4 flex items-center gap-2">
+                        <i class="fas fa-school text-blue-500"></i> โรงเรียนสตรีพัทลุง
+                    </h3>
+                    <p class="text-sm leading-relaxed text-slate-400">
+                        มุ่งมั่นพัฒนาผู้เรียนให้เป็นมนุษย์ที่สมบูรณ์ เป็นคนดี มีปัญญา มีความสุข และมีความเป็นไทย
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-white font-bold text-lg mb-4">ลิงก์ด่วน</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="/history" class="nav-item hover:text-white transition flex items-center gap-2"><i class="fas fa-angle-right text-xs text-blue-500"></i> ประวัติโรงเรียน</a></li>
+                        <li><a href="/activities" class="nav-item hover:text-white transition flex items-center gap-2"><i class="fas fa-angle-right text-xs text-blue-500"></i> กิจกรรม</a></li>
+                        <li><a href="/contact" class="nav-item hover:text-white transition flex items-center gap-2"><i class="fas fa-angle-right text-xs text-blue-500"></i> ติดต่อสอบถาม</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-white font-bold text-lg mb-4">ติดต่อ</h3>
+                    <ul class="space-y-3 text-sm text-slate-400">
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-map-marker-alt mt-1 text-blue-500"></i>
+                            <span>244 ถ.ราเมศวร์ ต.คูหาสวรรค์<br>อ.เมือง จ.พัทลุง 93000</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-phone text-blue-500"></i>
+                            <span>074-613-044</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fab fa-facebook text-blue-500"></i>
+                            <a href="https://www.facebook.com/sptschool" target="_blank" class="hover:text-white transition">โรงเรียนสตรีพัทลุง</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-slate-800 mt-8 pt-8 text-center text-xs text-slate-500">
+                &copy; 2024 โรงเรียนสตรีพัทลุง. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken, signOut } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+        import { getFirestore, collection, addDoc, getDocs, orderBy, query, serverTimestamp, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-storage.js";
+
+        // Firebase Config (Keep your existing config)
+        const firebaseConfig = {
+            apiKey: "AIzaSyD6...", // ใส่ Config ของคุณตรงนี้ (ตามไฟล์เดิม)
+            authDomain: "spt-moral-school.firebaseapp.com",
+            projectId: "spt-moral-school",
+            storageBucket: "spt-moral-school.firebasestorage.app",
+            messagingSenderId: "148674997034",
+            appId: "1:148674997034:web:055375990264020963d76e"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+        let currentUser = null;
+
+        // Global Logout Function
+        window.handleLogout = async () => {
+            if(confirm('ต้องการออกจากระบบ?')) {
+                await signOut(auth);
+                navigateTo('/home');
+            }
+        };
+
+        // --- Pages ---
+        const pages = {
+            home: async () => `
+                <div class="relative bg-white overflow-hidden mb-12">
+                    <div class="max-w-7xl mx-auto">
+                        <div class="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
+                            <main class="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
+                                <div class="sm:text-center lg:text-left fade-in">
+                                    <h1 class="text-4xl tracking-tight font-extrabold text-slate-900 sm:text-5xl md:text-6xl mb-4">
+                                        <span class="block xl:inline">โรงเรียนคุณธรรม สพฐ.</span>
+                                        <span class="block text-blue-600">โรงเรียนสตรีพัทลุง</span>
+                                    </h1>
+                                    <p class="mt-3 text-base text-slate-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+                                        สร้างสรรค์คนดี มีปัญญา พัฒนาสังคมไทย
+                                    </p>
+                                    <div class="mt-8 sm:mt-10 sm:flex sm:justify-center lg:justify-start gap-3">
+                                        <a href="/activities" class="nav-item w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10 shadow-lg hover:shadow-xl transition transform hover:-translate-y-1">
+                                            ดูกิจกรรม
+                                        </a>
+                                        <a href="/vision" class="nav-item w-full flex items-center justify-center px-8 py-3 border border-slate-200 text-base font-medium rounded-md text-slate-700 bg-white hover:bg-slate-50 md:py-4 md:text-lg md:px-10 transition">
+                                            เกี่ยวกับเรา
+                                        </a>
+                                    </div>
+                                </div>
+                            </main>
+                        </div>
+                    </div>
+                    <div class="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
+                        <img class="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full brightness-90" src="https://img5.pic.in.th/file/secure-sv1/1000002360.jpg" alt="School Activity">
+                        <div class="absolute inset-0 bg-gradient-to-r from-white via-transparent to-transparent lg:via-white/20"></div>
+                    </div>
+                </div>
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+                    <div class="text-center mb-12 fade-in">
+                        <span class="text-blue-600 font-semibold tracking-wide uppercase text-sm">ข่าวสารล่าสุด</span>
+                        <h2 class="text-3xl font-bold text-slate-900 mt-2">ประชาสัมพันธ์</h2>
+                        <div class="w-16 h-1 bg-blue-600 mx-auto mt-4 rounded-full"></div>
+                    </div>
+                    <div class="grid md:grid-cols-3 gap-8">
+                         <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition border border-slate-100 overflow-hidden group">
+                            <div class="h-48 overflow-hidden">
+                                <img src="https://img2.pic.in.th/pic/1000014867.jpg" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            </div>
+                            <div class="p-6">
+                                <div class="text-xs text-blue-600 font-bold mb-2">กิจกรรมเด่น</div>
+                                <h3 class="text-lg font-bold text-slate-900 mb-2">ทำบุญตักบาตรวันขึ้นปีใหม่</h3>
+                                <p class="text-slate-500 text-sm mb-4 line-clamp-2">คณะครูและนักเรียนร่วมทำบุญตักบาตรเนื่องในโอกาสวันขึ้นปีใหม่ 2567 เพื่อความเป็นสิริมงคล</p>
+                                <a href="/activities" class="nav-item text-blue-600 text-sm font-semibold hover:text-blue-800 flex items-center gap-1">อ่านต่อ <i class="fas fa-arrow-right text-xs"></i></a>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition border border-slate-100 overflow-hidden group">
+                            <div class="h-48 overflow-hidden">
+                                <img src="https://img2.pic.in.th/pic/1000014868.jpg" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            </div>
+                            <div class="p-6">
+                                <div class="text-xs text-blue-600 font-bold mb-2">อบรม/สัมมนา</div>
+                                <h3 class="text-lg font-bold text-slate-900 mb-2">ค่ายคุณธรรม จริยธรรม</h3>
+                                <p class="text-slate-500 text-sm mb-4 line-clamp-2">กิจกรรมเข้าค่ายส่งเสริมคุณธรรม จริยธรรม สำหรับนักเรียนระดับชั้นมัธยมศึกษาปีที่ 1 และ 4</p>
+                                <a href="/activities" class="nav-item text-blue-600 text-sm font-semibold hover:text-blue-800 flex items-center gap-1">อ่านต่อ <i class="fas fa-arrow-right text-xs"></i></a>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition border border-slate-100 overflow-hidden group">
+                            <div class="h-48 overflow-hidden">
+                                <img src="https://img5.pic.in.th/file/secure-sv1/1000002360.jpg" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            </div>
+                            <div class="p-6">
+                                <div class="text-xs text-blue-600 font-bold mb-2">วิชาการ</div>
+                                <h3 class="text-lg font-bold text-slate-900 mb-2">มหกรรมวิชาการเปิดบ้านสตรีพัทลุง</h3>
+                                <p class="text-slate-500 text-sm mb-4 line-clamp-2">ขอเชิญร่วมงานมหกรรมวิชาการ นิทรรศการผลงานนักเรียน และการแข่งขันทักษะวิชาการ</p>
+                                <a href="/activities" class="nav-item text-blue-600 text-sm font-semibold hover:text-blue-800 flex items-center gap-1">อ่านต่อ <i class="fas fa-arrow-right text-xs"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `,
+            history: async () => `
+                <div class="max-w-4xl mx-auto px-4 py-12 fade-in">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-8 border-l-4 border-blue-600 pl-4">ประวัติโรงเรียน</h2>
+                    <div class="bg-white p-8 rounded-xl shadow-sm border border-slate-100 prose prose-slate max-w-none">
+                        <p>โรงเรียนสตรีพัทลุง เดิมชื่อ "โรงเรียนสตรีพัทลุง (สตรีพัทลุง)" ตั้งขึ้นเมื่อวันที่ 17 พฤษภาคม 2475...</p>
+                        <p class="mt-4">ปัจจุบันตั้งอยู่เลขที่ 244 ถนนราเมศวร์ ตำบลคูหาสวรรค์ อำเภอเมือง จังหวัดพัทลุง...</p>
+                    </div>
+                </div>
+            `,
+            vision: async () => `
+                <div class="max-w-4xl mx-auto px-4 py-12 fade-in">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-8 border-l-4 border-blue-600 pl-4">วิสัยทัศน์และพันธกิจ</h2>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-blue-50 p-8 rounded-xl border border-blue-100">
+                            <h3 class="text-xl font-bold text-blue-800 mb-4 flex items-center gap-2"><i class="fas fa-eye"></i> วิสัยทัศน์</h3>
+                            <p class="text-slate-700 italic">"เป็นเลิศวิชาการ สืบสานความเป็นไทย ก้าวไกลเทคโนโลยี มีคุณธรรม น้อมนำปรัชญาของเศรษฐกิจพอเพียง"</p>
+                        </div>
+                        <div class="bg-white p-8 rounded-xl border border-slate-100 shadow-sm">
+                            <h3 class="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2"><i class="fas fa-list-ul text-blue-600"></i> พันธกิจ</h3>
+                            <ul class="space-y-3 text-slate-600">
+                                <li>1. พัฒนาผู้เรียนให้มีความรู้และทักษะที่จำเป็น</li>
+                                <li>2. ปลูกฝังคุณธรรม จริยธรรม</li>
+                                <li>3. ส่งเสริมการใช้นวัตกรรม</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            `,
+            symbol: async () => `
+                <div class="max-w-4xl mx-auto px-4 py-12 fade-in">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-8 border-l-4 border-blue-600 pl-4">เอกลักษณ์และอัตลักษณ์</h2>
+                     <div class="grid md:grid-cols-2 gap-6">
+                         <div class="bg-white p-8 rounded-xl border border-slate-100 shadow-sm text-center">
+                            <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl"><i class="fas fa-fingerprint"></i></div>
+                            <h3 class="text-xl font-bold text-slate-900 mb-2">อัตลักษณ์</h3>
+                            <p class="text-slate-600">"มารยาทงาม นามสตรีพัทลุง"</p>
+                        </div>
+                         <div class="bg-white p-8 rounded-xl border border-slate-100 shadow-sm text-center">
+                            <div class="w-16 h-16 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl"><i class="fas fa-star"></i></div>
+                            <h3 class="text-xl font-bold text-slate-900 mb-2">เอกลักษณ์</h3>
+                            <p class="text-slate-600">"สถานศึกษางามสง่า วิชาการเป็นเลิศ"</p>
+                        </div>
+                    </div>
+                </div>
+            `,
+             motto: async () => `
+                <div class="max-w-4xl mx-auto px-4 py-12 fade-in text-center">
+                     <h2 class="text-3xl font-bold text-slate-900 mb-12">คติพจน์และคำขวัญ</h2>
+                     <div class="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl p-12 text-white shadow-xl transform hover:scale-105 transition duration-300">
+                        <h3 class="text-2xl font-bold mb-4 opacity-90">คติพจน์</h3>
+                        <p class="text-4xl font-serif italic mb-8">"ปญฺญา โลกสฺมิ ปชฺโชโต"</p>
+                        <p class="text-lg opacity-80">(ปัญญาเป็นแสงสว่างในโลก)</p>
+                     </div>
+                </div>
+            `,
+            song: async () => `
+                <div class="max-w-3xl mx-auto px-4 py-12 fade-in">
+                     <h2 class="text-3xl font-bold text-slate-900 mb-8 border-l-4 border-blue-600 pl-4">เพลงประจำโรงเรียน</h2>
+                     <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                        <div class="aspect-w-16 aspect-h-9 mb-6 bg-slate-100 rounded-lg flex items-center justify-center text-slate-400">
+                            [พื้นที่สำหรับวิดีโอหรือไฟล์เสียง]
+                        </div>
+                        <h3 class="text-xl font-bold text-center mb-4">มาร์ชสตรีพัทลุง</h3>
+                        <p class="text-center text-slate-600 leading-relaxed whitespace-pre-line">
+                            (เนื้อเพลง...)
+                        </p>
+                     </div>
+                </div>
+            `,
+            personnel: async () => `
+                 <div class="max-w-6xl mx-auto px-4 py-12 fade-in">
+                     <h2 class="text-3xl font-bold text-slate-900 mb-8 border-l-4 border-blue-600 pl-4">บุคลากร</h2>
+                     <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                        ${[1,2,3,4].map(i => `
+                            <div class="bg-white rounded-lg shadow-sm border border-slate-100 overflow-hidden text-center p-6">
+                                <div class="w-24 h-24 bg-slate-200 rounded-full mx-auto mb-4"></div>
+                                <h3 class="font-bold text-slate-800">ชื่อ-สกุล</h3>
+                                <p class="text-sm text-slate-500">ตำแหน่ง</p>
+                            </div>
+                        `).join('')}
+                     </div>
+                </div>
+            `,
+            structure: async () => `
+                <div class="max-w-5xl mx-auto px-4 py-12 fade-in">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-8 border-l-4 border-blue-600 pl-4">โครงสร้างการบริหารงาน</h2>
+                    <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100 flex justify-center">
+                        <img src="https://via.placeholder.com/800x600?text=Organization+Chart" alt="Structure" class="max-w-full h-auto">
+                    </div>
+                </div>
+            `,
+            moral_target: async () => `
+                 <div class="max-w-4xl mx-auto px-4 py-12 fade-in">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-8 border-l-4 border-blue-600 pl-4">เป้าหมายคุณธรรม</h2>
+                    <div class="bg-white p-8 rounded-xl shadow-sm border border-slate-100">
+                        <ul class="space-y-4">
+                            <li class="flex items-start gap-3">
+                                <span class="bg-blue-100 text-blue-600 w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1">1</span>
+                                <span class="text-slate-700 text-lg">นักเรียนมีวินัย รับผิดชอบต่อหน้าที่</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="bg-blue-100 text-blue-600 w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1">2</span>
+                                <span class="text-slate-700 text-lg">ครูเป็นแบบอย่างที่ดี</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="bg-blue-100 text-blue-600 w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1">3</span>
+                                <span class="text-slate-700 text-lg">โรงเรียนบริหารจัดการอย่างโปร่งใส</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            `,
+             virtue: async () => `
+                 <div class="max-w-4xl mx-auto px-4 py-12 fade-in">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-8 border-l-4 border-blue-600 pl-4">คุณธรรมอัตลักษณ์</h2>
+                    <div class="grid md:grid-cols-3 gap-6 text-center">
+                         <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                            <div class="text-4xl text-blue-500 mb-3"><i class="fas fa-hand-holding-heart"></i></div>
+                            <h3 class="text-xl font-bold mb-2">ความรับผิดชอบ</h3>
+                         </div>
+                         <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                            <div class="text-4xl text-green-500 mb-3"><i class="fas fa-balance-scale"></i></div>
+                            <h3 class="text-xl font-bold mb-2">ความซื่อสัตย์</h3>
+                         </div>
+                         <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                            <div class="text-4xl text-orange-500 mb-3"><i class="fas fa-users"></i></div>
+                            <h3 class="text-xl font-bold mb-2">ความพอเพียง</h3>
+                         </div>
+                    </div>
+                </div>
+            `,
+            activities: async () => {
+                let html = `
+                <div class="max-w-6xl mx-auto px-4 py-12 fade-in">
+                    <div class="flex flex-col md:flex-row justify-between items-end mb-8 gap-4">
+                        <div>
+                             <h2 class="text-3xl font-bold text-slate-900 border-l-4 border-blue-600 pl-4">ภาพกิจกรรม</h2>
+                             <p class="text-slate-500 mt-2 pl-5">รวมภาพกิจกรรมต่างๆ ของโรงเรียน</p>
+                        </div>
+                        ${currentUser && !currentUser.isAnonymous ? 
+                        `<button onclick="document.getElementById('upload-modal').classList.remove('hidden')" class="px-5 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 shadow-md transition flex items-center gap-2">
+                            <i class="fas fa-plus"></i> เพิ่มกิจกรรมใหม่
+                        </button>` : ''}
+                    </div>
+                    
+                    <div id="activity-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <div class="col-span-full text-center py-20 text-slate-400">
+                             <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                             กำลังโหลดข้อมูล...
+                        </div>
+                    </div>
+                </div>
+
+                <div id="upload-modal" class="hidden fixed inset-0 bg-black/60 z-[60] flex items-center justify-center p-4 backdrop-blur-sm">
+                    <div class="bg-white rounded-2xl p-8 w-full max-w-lg shadow-2xl transform transition-all">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-xl font-bold text-slate-900">เพิ่มกิจกรรมใหม่</h3>
+                            <button onclick="document.getElementById('upload-modal').classList.add('hidden')" class="text-slate-400 hover:text-slate-600">
+                                <i class="fas fa-times text-xl"></i>
+                            </button>
+                        </div>
+                        <form id="upload-form" class="space-y-5">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">หัวข้อกิจกรรม</label>
+                                <input type="text" id="title" required class="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">รายละเอียด</label>
+                                <textarea id="desc" rows="3" required class="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">รูปภาพ</label>
+                                <div class="border-2 border-dashed border-slate-300 rounded-lg p-6 text-center hover:bg-slate-50 transition cursor-pointer relative">
+                                    <input type="file" id="file" accept="image/*" required class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+                                    <i class="fas fa-cloud-upload-alt text-3xl text-slate-400 mb-2"></i>
+                                    <p class="text-sm text-slate-500">คลิกเพื่อเลือกไฟล์ หรือลากไฟล์มาวาง</p>
+                                </div>
+                            </div>
+                            <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition shadow-lg mt-2">บันทึกข้อมูล</button>
+                        </form>
+                    </div>
+                </div>
+                `;
+
+                // Load Data logic
+                setTimeout(async () => {
+                    const grid = document.getElementById('activity-grid');
+                    if(!grid) return;
+                    
+                    try {
+                        const q = query(collection(db, "activities"), orderBy("timestamp", "desc"));
+                        const snap = await getDocs(q);
+                        
+                        if(snap.empty) {
+                            grid.innerHTML = `<div class="col-span-full text-center py-20 bg-slate-50 rounded-xl border border-dashed border-slate-300 text-slate-500">ยังไม่มีข้อมูลกิจกรรม</div>`;
+                            return;
+                        }
+
+                        grid.innerHTML = snap.docs.map(doc => {
+                            const d = doc.data();
+                            return `
+                            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-lg transition duration-300 group flex flex-col h-full">
+                                <div class="h-56 overflow-hidden relative">
+                                    <img src="${d.imageUrl}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition duration-300"></div>
+                                </div>
+                                <div class="p-6 flex-grow">
+                                    <h3 class="text-xl font-bold text-slate-900 mb-2 line-clamp-1">${d.title}</h3>
+                                    <p class="text-slate-500 text-sm line-clamp-3 leading-relaxed mb-4">${d.description}</p>
+                                    <p class="text-xs text-slate-400"><i class="far fa-clock mr-1"></i> ${d.timestamp ? new Date(d.timestamp.toDate()).toLocaleDateString('th-TH') : '-'}</p>
+                                </div>
+                                ${currentUser && !currentUser.isAnonymous ? 
+                                `<div class="px-6 pb-6 pt-0 mt-auto">
+                                    <button onclick="deleteActivity('${doc.id}', '${d.imageUrl}')" class="w-full py-2 bg-red-50 text-red-600 text-sm font-medium rounded-lg hover:bg-red-100 transition">
+                                        <i class="fas fa-trash-alt mr-1"></i> ลบกิจกรรม
+                                    </button>
+                                </div>` : ''}
+                            </div>
+                            `;
+                        }).join('');
+
+                        // Bind Form Submit
+                        const form = document.getElementById('upload-form');
+                        if(form) {
+                            form.onsubmit = async (e) => {
+                                e.preventDefault();
+                                const btn = form.querySelector('button[type="submit"]');
+                                const originalText = btn.innerText;
+                                btn.innerText = 'กำลังบันทึก...';
+                                btn.disabled = true;
+
+                                try {
+                                    const file = document.getElementById('file').files[0];
+                                    const storageRef = ref(storage, 'activities/' + Date.now() + '_' + file.name);
+                                    await uploadBytes(storageRef, file);
+                                    const url = await getDownloadURL(storageRef);
+                                    
+                                    await addDoc(collection(db, "activities"), {
+                                        title: document.getElementById('title').value,
+                                        description: document.getElementById('desc').value,
+                                        imageUrl: url,
+                                        timestamp: serverTimestamp()
+                                    });
+                                    document.getElementById('upload-modal').classList.add('hidden');
+                                    router(); // Reload
+                                } catch (err) {
+                                    alert('Error: ' + err.message);
+                                } finally {
+                                    btn.innerText = originalText;
+                                    btn.disabled = false;
+                                }
+                            };
+                        }
+
+                    } catch (e) {
+                        console.error(e);
+                        grid.innerHTML = `<div class="col-span-full text-center text-red-500">โหลดข้อมูลไม่สำเร็จ: ${e.message}</div>`;
+                    }
+                }, 0);
+
+                return html;
+            },
+            contact: async () => `
+                <div class="max-w-4xl mx-auto px-4 py-12 fade-in">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-8 border-l-4 border-blue-600 pl-4">ติดต่อเรา</h2>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="bg-white p-8 rounded-xl shadow-sm border border-slate-100">
+                             <h3 class="text-xl font-bold mb-6">ข้อมูลการติดต่อ</h3>
+                             <ul class="space-y-6">
+                                <li class="flex items-start gap-4">
+                                    <div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-blue-600 flex-shrink-0">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-slate-800">ที่อยู่</div>
+                                        <div class="text-slate-600 text-sm mt-1">244 ถ.ราเมศวร์ ต.คูหาสวรรค์<br>อ.เมือง จ.พัทลุง 93000</div>
+                                    </div>
+                                </li>
+                                <li class="flex items-start gap-4">
+                                    <div class="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center text-green-600 flex-shrink-0">
+                                        <i class="fas fa-phone"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-slate-800">เบอร์โทรศัพท์</div>
+                                        <div class="text-slate-600 text-sm mt-1">074-613-044</div>
+                                    </div>
+                                </li>
+                                <li class="flex items-start gap-4">
+                                    <div class="w-10 h-10 bg-indigo-50 rounded-full flex items-center justify-center text-indigo-600 flex-shrink-0">
+                                        <i class="fab fa-facebook"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-slate-800">Facebook</div>
+                                        <a href="https://www.facebook.com/sptschool" target="_blank" class="text-blue-600 hover:underline text-sm mt-1 block">โรงเรียนสตรีพัทลุง</a>
+                                    </div>
+                                </li>
+                             </ul>
+                        </div>
+                        <div class="bg-slate-200 rounded-xl min-h-[300px] flex items-center justify-center text-slate-400">
+                            [แผนที่ Google Maps]
+                        </div>
+                    </div>
+                </div>
+            `,
+            login: async () => `
+                <div class="max-w-md mx-auto px-4 py-20 fade-in">
+                    <div class="bg-white p-8 rounded-2xl shadow-xl border border-slate-100">
+                        <div class="text-center mb-8">
+                            <h2 class="text-2xl font-bold text-slate-900">เข้าสู่ระบบ</h2>
+                            <p class="text-slate-500 text-sm mt-2">สำหรับเจ้าหน้าที่ดูแลระบบ</p>
+                        </div>
+                        <form onsubmit="handleLogin(event)" class="space-y-5">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">Email</label>
+                                <input type="email" id="email" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 outline-none transition" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">Password</label>
+                                <input type="password" id="password" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 outline-none transition" required>
+                            </div>
+                            <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition shadow-lg">Login</button>
+                        </form>
+                    </div>
+                </div>
+            `
+        };
+
+        // --- Router System (Path Routing) ---
+        const router = async () => {
+            // ดึง Path ปัจจุบัน (ตัด / หน้าสุดออก)
+            let path = window.location.pathname.replace(/^\//, '');
+            if (!path) path = 'home';
+            
+            // Render
+            const renderFn = pages[path] || pages['home'];
+            const appDiv = document.getElementById('app');
+            
+            // Loading State
+            appDiv.innerHTML = '<div class="flex justify-center pt-32"><div class="animate-spin rounded-full h-12 w-12 border-4 border-blue-200 border-t-blue-600"></div></div>';
+            
+            try {
+                appDiv.innerHTML = await renderFn();
+                window.scrollTo(0, 0);
+            } catch (error) {
+                console.error(error);
+                appDiv.innerHTML = `<div class="text-center pt-20 text-red-500">Error loading page</div>`;
+            }
+
+            // Update Nav State
+            document.querySelectorAll('.nav-link, .mobile-link').forEach(el => {
+                el.classList.remove('nav-active', 'text-blue-600', 'bg-blue-50');
+                const href = el.getAttribute('href')?.replace(/^\//, ''); // ตัด / ออกเพื่อเทียบ
+                
+                // Logic เช็ค Active
+                if (href === path) {
+                    if (el.classList.contains('mobile-link')) {
+                        el.classList.add('text-blue-600', 'bg-blue-50');
+                    } else {
+                        el.classList.add('nav-active');
+                    }
+                }
+            });
+        };
+
+        // Navigation Function (ใช้แทนการกดลิงก์ปกติ)
+        window.navigateTo = (url) => {
+            history.pushState(null, null, url);
+            router();
+        };
+
+        // Handle Browser Back/Forward
+        window.addEventListener('popstate', router);
+
+        // Global Click Listener for Links (Intercept <a> tags)
+        document.addEventListener('click', e => {
+            const link = e.target.closest('a.nav-item'); // ใช้ class nav-item เพื่อระบุลิงก์ภายใน
+            if (link) {
+                e.preventDefault();
+                const href = link.getAttribute('href');
+                navigateTo(href);
+                // ปิดเมนูมือถือถ้าเปิดอยู่
+                document.getElementById('mobile-menu').classList.add('hidden');
+            }
+        });
+
+        // --- Global Functions ---
+        window.deleteActivity = async (id, imgUrl) => {
+            if(!confirm('ต้องการลบกิจกรรมนี้?')) return;
+            try {
+                await deleteDoc(doc(db, "activities", id));
+                // Note: Deleting file requires Ref, simplistic here
+                router(); 
+            } catch(e) { alert(e.message); }
+        };
+
+        window.handleLogin = async (e) => {
+            e.preventDefault();
+            // Implement login with signInWithEmailAndPassword if needed
+            // For now just alert
+            alert("ระบบ Login ต้องเปิดใช้งาน Authentication Email/Password ใน Firebase Console ก่อน");
+        };
+        
+        // Mobile Menu Toggle
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Mobile Dropdown Toggle
+        window.toggleMobileDropdown = (btn) => {
+            btn.parentElement.classList.toggle('active');
+        };
+
+        // Scroll Effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if(window.scrollY > 10) nav.classList.add('shadow-md');
+            else nav.classList.remove('shadow-md');
+        });
+
+        // Auth State
+        onAuthStateChanged(auth, (user) => {
+            currentUser = user;
+            const desk = document.getElementById('auth-container-desktop');
+            const mob = document.getElementById('auth-container-mobile');
+            
+            if (user && !user.isAnonymous) {
+                const btn = `<button onclick="handleLogout()" class="px-3 py-1 bg-red-100 text-red-600 rounded-lg text-xs font-bold hover:bg-red-200 transition">Logout</button>`;
+                desk.innerHTML = btn; mob.innerHTML = btn;
+            } else {
+                // เปลี่ยนลิงก์ Login เป็น /login
+                desk.innerHTML = `<a href="/login" class="nav-item text-xs text-slate-300 hover:text-blue-500 transition"><i class="fas fa-lock"></i></a>`;
+                mob.innerHTML = '<a href="/login" class="nav-item text-xs text-slate-300 hover:text-blue-500 transition"><i class="fas fa-lock"></i></a>';
+            }
+            
+            // เรียก Router ครั้งแรก
+            router();
+        });
+
+    </script>
+</body>
+</html>
