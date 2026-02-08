@@ -1335,6 +1335,32 @@ if (mobileMenuBtn && mobileMenu) {
         }
     });
 }
+        // ==========================================
+// ส่วนจัดการ Mobile Dropdown (Mobile-group)
+// ==========================================
+const groupBtn = document.getElementById('mobile-group');
+const groupContent = document.getElementById('mobile-group');
+
+if (groupBtn && groupContent) {
+    groupBtn.addEventListener('click', (e) => {
+        e.preventDefault(); // ป้องกันการเปลี่ยนหน้า (ถ้าเป็น tag a)
+        e.stopPropagation(); // ป้องกัน event ชนกัน
+        
+        // 1. สลับการแสดงผล (Show/Hide)
+        groupContent.classList.toggle('hidden');
+        
+        // 2. หมุนลูกศร (ถ้ามี icon svg ข้างใน)
+        const icon = groupBtn.querySelector('svg');
+        if (icon) {
+            if (groupContent.classList.contains('hidden')) {
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                icon.style.transform = 'rotate(180deg)';
+            }
+        }
+    });
+}
+
 
         const thaiPageNames = {
             'home': 'หน้าหลัก',
