@@ -1,14 +1,11 @@
 {
   "rewrites": [
-    // 1. ส่งคำขอ /lms ไปที่โปรเจกต์ LMS
     {
       "source": "/reg/:path*",
       "destination": "https://sptmoral.vercel.app/:path*"
     },
-    // 2. แก้ปัญหา 404 สำหรับเว็บหลัก (SPA Fallback)
-    // ถ้าหาไฟล์ไม่เจอ ให้ส่งกลับไปที่ index.html ของเว็บหลักเสมอ
     {
-      "source": "/((?!lms|api|_next).* )",
+      "source": "/((?!reg|api|_next).* )",
       "destination": "/index.html"
     }
   ]
