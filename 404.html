@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - ไม่พบหน้าที่คุณต้องการ</title>
+    <!-- Favicon SVG แบบ Inline -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23050b14'/><path d='M20 50 Q50 20 80 50' stroke='%2300f0ff' stroke-width='8' stroke-linecap='round' fill='none'/><circle cx='50' cy='40' r='15' fill='%23ff0055'/></svg>">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Prompt', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+
+        body {
+            background-color: #050811;
+            color: #e2e8f0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+
+        /* พื้นหลังดวงดาว */
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #eee, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 50px 160px, #ddd, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 90px 40px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 130px 80px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 160px 120px, #ddd, rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 200px 200px;
+            animation: twinkling 4s infinite;
+        }
+
+
+        @keyframes twinkling {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 0.4; }
+        }
+
+
+        /* แสงพื้นหลัง */
+        .ambient-light {
+            position: absolute;
+            width: 70vw;
+            height: 70vw;
+            max-width: 600px;
+            max-height: 600px;
+            background: radial-gradient(circle, rgba(0, 240, 255, 0.08) 0%, rgba(255, 0, 85, 0.05) 40%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+            filter: blur(50px);
+            animation: pulse-light 8s ease-in-out infinite alternate;
+        }
+
+
+        @keyframes pulse-light {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
+            100% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+        }
+
+
+        .container {
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+            padding: 3rem 2rem;
+            z-index: 1;
+            position: relative;
+        }
+
+
+        /* UFO Animation */
+        .ufo-wrapper {
+            position: relative;
+            width: 240px;
+            height: 240px;
+            margin: 0 auto 1rem auto;
+            animation: hover-ufo 5s ease-in-out infinite;
+        }
+
+
+        @keyframes hover-ufo {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            25% { transform: translateY(-15px) rotate(2deg); }
+            75% { transform: translateY(10px) rotate(-2deg); }
+        }
+
+
+        .beam {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 140px;
+            height: 120px;
+            background: linear-gradient(to bottom, rgba(0, 240, 255, 0.4) 0%, rgba(0, 240, 255, 0) 100%);
+            clip-path: polygon(30% 0, 70% 0, 100% 100%, 0% 100%);
+            opacity: 0.6;
+            animation: beam-flicker 3s infinite alternate;
+            z-index: -1;
+        }
+
+
+        @keyframes beam-flicker {
+            0%, 100% { opacity: 0.5; height: 110px; }
+            50% { opacity: 0.8; height: 130px; }
+        }
+
+
+        .error-code {
+            font-size: 5rem;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.4), 0 0 20px rgba(0, 240, 255, 0.2);
+            letter-spacing: 2px;
+        }
+
+
+        /* Glitch effect on hover */
+        .error-code:hover {
+            animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
+        }
+
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 1rem;
+        }
+
+
+        p {
+            color: #94a3b8;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+            font-weight: 300;
+            max-width: 450px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+
+        .actions {
+            display: flex;
+            gap: 1.25rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.8rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            overflow: hidden;
+            position: relative;
+        }
+
+
+        .btn-primary {
+            background-color: #00f0ff;
+            color: #050811;
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+            border: 2px solid #00f0ff;
+        }
+
+
+        .btn-primary:hover {
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.7);
+            transform: translateY(-2px);
+            background-color: #1affff;
+        }
+
+
+        .btn-secondary {
+            background: transparent;
+            color: #e2e8f0;
+            border: 2px solid rgba(226, 232, 240, 0.2);
+        }
+
+
+        .btn-secondary:hover {
+            border-color: #ff0055;
+            color: #ff0055;
+            box-shadow: 0 0 15px rgba(255, 0, 85, 0.2);
+            transform: translateY(-2px);
+        }
+
+
+        @media (max-width: 480px) {
+            .error-code { font-size: 4rem; }
+            h1 { font-size: 1.4rem; }
+            .ufo-wrapper { width: 180px; height: 180px; }
+            .actions { flex-direction: column; gap: 1rem; }
+            .btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+
+    <div class="stars"></div>
+    <div class="ambient-light"></div>
+
+
+    <div class="container">
+        <div class="ufo-wrapper">
+            <!-- UFO SVG -->
+            <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Dome -->
+                <path d="M100 45 C75 45 65 75 65 75 L135 75 C135 75 125 45 100 45 Z" fill="rgba(255, 255, 255, 0.2)" stroke="#00f0ff" stroke-width="3"/>
+                <!-- Alien Eye (inside dome) -->
+                <circle cx="100" cy="65" r="8" fill="#00f0ff" opacity="0.8"/>
+                
+                <!-- UFO Body -->
+                <ellipse cx="100" cy="85" rx="65" ry="18" fill="#1e293b" stroke="#334155" stroke-width="4"/>
+                <ellipse cx="100" cy="80" rx="65" ry="18" fill="#0f172a"/>
+                
+                <!-- Lights -->
+                <circle cx="50" cy="80" r="3" fill="#ff0055">
+                    <animate attributeName="opacity" values="0.2;1;0.2" dur="1s" repeatCount="indefinite" />
+                </circle>
+                <circle cx="75" cy="87" r="3" fill="#00f0ff">
+                    <animate attributeName="opacity" values="1;0.2;1" dur="1.5s" repeatCount="indefinite" />
+                </circle>
+                <circle cx="100" cy="90" r="4" fill="#ff0055">
+                    <animate attributeName="opacity" values="0.2;1;0.2" dur="2s" repeatCount="indefinite" />
+                </circle>
+                <circle cx="125" cy="87" r="3" fill="#00f0ff">
+                    <animate attributeName="opacity" values="1;0.2;1" dur="1.2s" repeatCount="indefinite" />
+                </circle>
+                <circle cx="150" cy="80" r="3" fill="#ff0055">
+                    <animate attributeName="opacity" values="0.2;1;0.2" dur="1.8s" repeatCount="indefinite" />
+                </circle>
+            </svg>
+            <div class="beam"></div>
+        </div>
+
+
+        <div class="error-code">404</div>
+        <h1>หลงทางอยู่ในอวกาศใช่ไหม?</h1>
+        <p>ไฟล์หรือหน้าที่คุณกำลังตามหาอาจถูกลบ ย้ายชื่อ หรือไม่มีอยู่จริงในระบบนี้</p>
+
+
+        <div class="actions">
+            <a href="/" class="btn btn-primary">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                กลับหน้าหลัก
+            </a>
+            <a href="javascript:history.back()" class="btn btn-secondary">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                ย้อนกลับ
+            </a>
+        </div>
+    </div>
+
+
+</body>
+</html>
